@@ -10,7 +10,8 @@ BATCH_SIZE = 32
 EPOCHS = 10
 
 # Data preparation
-train_dir = "data/train"
+base_dir = os.path.dirname(os.path.abspath(__file__))
+train_dir = os.path.join(base_dir, "../train")
 
 # Data generator with augmentation for the training set
 train_datagen = ImageDataGenerator(
@@ -52,5 +53,7 @@ model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy']
 history = model.fit(train_generator, epochs=EPOCHS, verbose=1)
 
 # Save the model
-model.save('./classifier.h5')
-print("Model saved as 'classifier.h5'")
+model_dir = os.path.join(base_dir, "model")
+os.makedirs(model_dir, exist_ok=True)
+model.save(os.path.join(model_dir, 'classifier.h5'))
+print("Model saved in the 'model' directory as 'classifier.h5'")
